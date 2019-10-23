@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using HNChallenge.Api.Entities;
+using HNChallenge.Api.Services;
+using HNChallenge.Api.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace HNChallenge.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    ///<summary></summary>
+
+    public class ItemsController : ControllerBase
+    {
+        private readonly ItemsService itemsService;
+        private readonly UsersService usersService;
+        private readonly ObjectMappingService mapper;
+
+        public ItemsController(ItemsService itemsService, UsersService usersService, ObjectMappingService mapper)
+        {
+            this.itemsService = itemsService;
+            this.usersService = usersService;
+            this.mapper = mapper;
+        }
+
+        // GET api/items
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/items/5
+        [HttpGet("{id}")]
+        public ActionResult<HackerNewsItem> Get(int id)
+        {
+            return this.itemsService.GetItemById(id);
+        }
+
+        ///<remarks>
+        /// In the interest of REST I am leaving these routes
+        /// here but not implementing them, as I'm pretty sure
+        /// HackerNews won't let me access these resources
+        ///</remarks>
+        // POST api/items
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        // PUT api/items/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        // DELETE api/items/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        // these guys don't really seem all that RESTful...
+        [HttpGet("top")]
+        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetTop([FromQuery] int page)
+        {
+            // TODO
+            var items = this.itemsService.GetTopItems(page);
+
+            return Ok(items.Select(i => new HackerNewsItemViewModel
+            {
+                Score = i.Score,
+                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
+                Title = i.Title,
+                Text = i.Text,
+                Url = i.Url
+            }));
+        }
+
+        [HttpGet("new")]
+        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetNew([FromQuery] int page)
+        {
+            // TODO
+            var items = this.itemsService.GetNewItems(page);
+
+            return Ok(items.Select(i => new HackerNewsItemViewModel
+            {
+                Score = i.Score,
+                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
+                Title = i.Title,
+                Text = i.Text,
+                Url = i.Url
+            }));
+
+        }
+
+        [HttpGet("best")]
+        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetBest([FromQuery] int page)
+        {
+            // TODO
+            var items = this.itemsService.GetBestItems(page);
+
+            return Ok(items.Select(i => new HackerNewsItemViewModel
+            {
+                Score = i.Score,
+                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
+                Title = i.Title,
+                Text = i.Text,
+                Url = i.Url
+            }));
+
+        }
+    }
+}

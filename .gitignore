@@ -1,0 +1,10 @@
+**/bin
+**/obj
+**/*.rsa
+
+.vs/
+.vscode/
+.artifacts/
+
+
+**/*.nupkg
