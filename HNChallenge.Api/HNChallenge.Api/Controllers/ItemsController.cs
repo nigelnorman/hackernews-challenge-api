@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HNChallenge.Api.Entities;
 using HNChallenge.Api.Services;
 using HNChallenge.Api.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HNChallenge.Api.Controllers
@@ -83,6 +84,7 @@ namespace HNChallenge.Api.Controllers
             }));
         }
 
+        [EnableCors("AllowOrigin")]
         [HttpGet("new")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetNew([FromQuery] int page)
         {

@@ -27,6 +27,11 @@ namespace HNChallenge.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200"));
+            });
 
             // Register services
             services.AddTransient<ItemsService>();
@@ -49,6 +54,11 @@ namespace HNChallenge.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCors(opt => 
+            opt.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+                .AllowAnyMethod());
+
         }
     }
 }
