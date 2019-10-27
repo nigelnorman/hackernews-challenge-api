@@ -68,6 +68,7 @@ namespace HNChallenge.Api.Controllers
         }
 
         // these guys don't really seem all that RESTful...
+        [EnableCors("AllowOrigin")]
         [HttpGet("top")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetTop([FromQuery] int page)
         {
@@ -102,6 +103,7 @@ namespace HNChallenge.Api.Controllers
 
         }
 
+        [EnableCors("AllowOrigin")]
         [HttpGet("best")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetBest([FromQuery] int page)
         {
