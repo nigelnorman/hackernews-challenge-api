@@ -9,7 +9,7 @@ namespace HNChallenge.Api.Services
 {
     /// <summary>
     /// Normally I would probably employ something like AutoMapper 
-    /// instead of rolling by own, but the reason why I'm making 
+    /// instead of rolling my own, but the reason why I'm making 
     /// this a separate service is to keep my controller methods
     /// as light-weight as possible.
     /// </summary>

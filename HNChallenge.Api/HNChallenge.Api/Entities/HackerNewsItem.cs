@@ -9,9 +9,6 @@ namespace HNChallenge.Api.Entities
     {
         public int Id { get; set; }
 
-        // my gut tells me I want to use an enum for this
-        // for reliability with comparisons in the client
-        // but we'll see ...
         public string Type { get; set; }
 
         public string Title { get; set; }

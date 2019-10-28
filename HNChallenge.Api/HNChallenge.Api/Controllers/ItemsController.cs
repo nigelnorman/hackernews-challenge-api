@@ -27,11 +27,17 @@ namespace HNChallenge.Api.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet("info")]
+        public ActionResult<string> GetInfo()
+        {
+            return "HackerNews Challenge Application Programming Interface";
+        }
+
         // GET api/items
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return "";
         }
 
         // GET api/items/5
