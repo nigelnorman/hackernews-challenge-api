@@ -17,7 +17,7 @@ namespace HNChallenge.Api.Tests.Given_ItemsService_and_no_data
         }
 
         [Fact]
-        public void GetUser_success()
+        public void GetUserById_success()
         {
             // oui, c'est moi
             const string userId = "nsquared";

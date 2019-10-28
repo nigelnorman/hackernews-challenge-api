@@ -72,53 +72,27 @@ namespace HNChallenge.Api.Controllers
         [HttpGet("top")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetTop([FromQuery] int page)
         {
-            // TODO
-            var items = this.itemsService.GetTopItems(page);
+            var items = this.itemsService.GetTopItems(page == 0 ? page : page - 1);
 
-            return Ok(items.Select(i => new HackerNewsItemViewModel
-            {
-                Score = i.Score,
-                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
-                Title = i.Title,
-                Text = i.Text,
-                Url = i.Url
-            }));
+            return Ok(items.Select(i => mapper.Map(i)));
         }
 
         [EnableCors("AllowOrigin")]
         [HttpGet("new")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetNew([FromQuery] int page)
         {
-            // TODO
-            var items = this.itemsService.GetNewItems(page);
+            var items = this.itemsService.GetNewItems(page == 0 ? page : page - 1);
 
-            return Ok(items.Select(i => new HackerNewsItemViewModel
-            {
-                Score = i.Score,
-                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
-                Title = i.Title,
-                Text = i.Text,
-                Url = i.Url
-            }));
-
+            return Ok(items.Select(i => mapper.Map(i)));
         }
 
         [EnableCors("AllowOrigin")]
         [HttpGet("best")]
         public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetBest([FromQuery] int page)
         {
-            // TODO
-            var items = this.itemsService.GetBestItems(page);
+            var items = this.itemsService.GetBestItems(page == 0 ? page : page - 1);
 
-            return Ok(items.Select(i => new HackerNewsItemViewModel
-            {
-                Score = i.Score,
-                By = this.mapper.Map(this.usersService.GetUserById(i.By)),
-                Title = i.Title,
-                Text = i.Text,
-                Url = i.Url
-            }));
-
+            return Ok(items.Select(i => mapper.Map(i)));
         }
     }
 }

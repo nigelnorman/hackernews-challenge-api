@@ -15,15 +15,22 @@ namespace HNChallenge.Api.Services
     /// </summary>
     public class ObjectMappingService
     {
-        public ObjectMappingService() { }
+        private readonly UsersService usersService;
+
+        public ObjectMappingService(UsersService usersService)
+        {
+            this.usersService = usersService;
+        }
 
         public HackerNewsItemViewModel Map(HackerNewsItem item)
         {
             return new HackerNewsItemViewModel
             {
-                Id = item.Id,
-                Type = item.Type,
-
+                Score = item.Score,
+                By = Map(this.usersService.GetUserById(item.By)),
+                Title = item.Title,
+                Text = item.Text,
+                Url = item.Url
             };
         }
 
