@@ -29,7 +29,7 @@ namespace HNChallenge.Api.Services
             return new HackerNewsItemViewModel
             {
                 Score = item.Score,
-                By = author != null ? Map(this.usersService.GetUserById(item.By)) : new HackerNewsUserViewModel { Id = "anonymous user", Karma = -1 },
+                By = author != null ? Map(author) : new HackerNewsUserViewModel { Id = "anonymous user", Karma = -1 },
                 Title = item.Title,
                 Text = item.Text,
                 Url = item.Url
