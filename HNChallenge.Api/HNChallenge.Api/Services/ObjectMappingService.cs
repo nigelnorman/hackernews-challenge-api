@@ -24,10 +24,12 @@ namespace HNChallenge.Api.Services
 
         public HackerNewsItemViewModel Map(HackerNewsItem item)
         {
+            var author = this.usersService.GetUserById(item.By);
+
             return new HackerNewsItemViewModel
             {
                 Score = item.Score,
-                By = Map(this.usersService.GetUserById(item.By)),
+                By = author != null ? Map(this.usersService.GetUserById(item.By)) : new HackerNewsUserViewModel { Id = "anonymous user", Karma = -1 },
                 Title = item.Title,
                 Text = item.Text,
                 Url = item.Url
