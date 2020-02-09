@@ -15,14 +15,14 @@ namespace HNChallenge.Api.Services
 
         public UsersService() { }
 
-        public HackerNewsUser GetUserById(string id)
+        public async Task<HackerNewsUser> GetUserById(string id)
         {
             var uri = $"{hackerNewsApiUri}/user/{id}.json";
 
             var request = WebRequest.Create(uri);
             request.Method = "GET";
 
-            var response = request.GetResponse();
+            var response = await request.GetResponseAsync();
 
             using (var streamReader = new StreamReader(response.GetResponseStream()))
             {

@@ -3,6 +3,7 @@ using HNChallenge.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 //TODO
@@ -24,7 +25,7 @@ namespace HNChallenge.Api.Tests.Items
         {
             const int itemId = 42;
 
-            var item = this.itemsService.GetItemById(itemId);
+            var item = Task.Run(async () => await this.itemsService.GetItemById(itemId).ConfigureAwait(false)).Result;
 
             var expectedItem = new HackerNewsItem
             {

@@ -42,9 +42,9 @@ namespace HNChallenge.Api.Controllers
 
         // GET api/items/5
         [HttpGet("{id}")]
-        public ActionResult<HackerNewsItem> Get(int id)
+        public async Task<ActionResult<HackerNewsItem>> Get(int id)
         {
-            return this.itemsService.GetItemById(id);
+            return await this.itemsService.GetItemById(id);
         }
 
         ///<remarks>
@@ -76,27 +76,27 @@ namespace HNChallenge.Api.Controllers
         // these guys don't really seem all that RESTful...
         [EnableCors("AllowOrigin")]
         [HttpGet("top")]
-        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetTop([FromQuery] int page)
+        public async Task<ActionResult<IEnumerable<HackerNewsItemViewModel>>> GetTop([FromQuery] int page)
         {
-            var items = this.itemsService.GetTopItems(page == 0 ? page : page - 1);
+            var items = await this.itemsService.GetTopItems(page == 0 ? page : page - 1);
 
             return Ok(items.Select(i => mapper.Map(i)));
         }
 
         [EnableCors("AllowOrigin")]
         [HttpGet("new")]
-        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetNew([FromQuery] int page)
+        public async Task<ActionResult<IEnumerable<HackerNewsItemViewModel>>> GetNew([FromQuery] int page)
         {
-            var items = this.itemsService.GetNewItems(page == 0 ? page : page - 1);
+            var items = await this.itemsService.GetNewItems(page == 0 ? page : page - 1);
 
             return Ok(items.Select(i => mapper.Map(i)));
         }
 
         [EnableCors("AllowOrigin")]
         [HttpGet("best")]
-        public ActionResult<IEnumerable<HackerNewsItemViewModel>> GetBest([FromQuery] int page)
+        public async Task<ActionResult<IEnumerable<HackerNewsItemViewModel>>> GetBest([FromQuery] int page)
         {
-            var items = this.itemsService.GetBestItems(page == 0 ? page : page - 1);
+            var items = await this.itemsService.GetBestItems(page == 0 ? page : page - 1);
 
             return Ok(items.Select(i => mapper.Map(i)));
         }

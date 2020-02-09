@@ -3,6 +3,7 @@ using HNChallenge.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace HNChallenge.Api.Tests.Given_ItemsService_and_no_data
@@ -22,7 +23,7 @@ namespace HNChallenge.Api.Tests.Given_ItemsService_and_no_data
             // oui, c'est moi
             const string userId = "nsquared";
 
-            var user = this.usersService.GetUserById(userId);
+            var user = Task.Run(async () => await this.usersService.GetUserById(userId).ConfigureAwait(false)).Result;
 
             Assert.NotNull(user);
         }

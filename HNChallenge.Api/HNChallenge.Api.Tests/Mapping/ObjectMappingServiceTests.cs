@@ -3,6 +3,7 @@ using HNChallenge.Api.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace HNChallenge.Api.Tests.Mapping
@@ -24,7 +25,7 @@ namespace HNChallenge.Api.Tests.Mapping
         public void UserMapsToViewModel_success()
         {
             var userId = "nsquared";
-            var user = this.usersService.GetUserById(userId);
+            var user = Task.Run(async () => await this.usersService.GetUserById(userId).ConfigureAwait(false)).Result;
             var userVm = this.mapper.Map(user);
 
             var expectedVm = new HackerNewsUserViewModel
@@ -42,8 +43,8 @@ namespace HNChallenge.Api.Tests.Mapping
         public void ItemMapsToViewModel_success()
         {
             var itemId = 42;
-            var item = this.itemsService.GetItemById(itemId);
-            var itemVm = this.mapper.Map(item);
+            var item = Task.Run(async () => await this.itemsService.GetItemById(itemId).ConfigureAwait(false)).Result;
+            var itemVm = Task.Run(async () => await this.mapper.Map(item).ConfigureAwait(false)).Result;
 
             var expectedItemVm = new HackerNewsItemViewModel
             {
@@ -62,8 +63,8 @@ namespace HNChallenge.Api.Tests.Mapping
         public void ItemViewModelHasMappedUserViewModel_success()
         {
             var itemId = 42;
-            var item = this.itemsService.GetItemById(itemId);
-            var itemVm = this.mapper.Map(item);
+            var item = Task.Run(async () => await this.itemsService.GetItemById(itemId).ConfigureAwait(false)).Result;
+            var itemVm = Task.Run(async () => await this.mapper.Map(item).ConfigureAwait(false)).Result;
 
             var expectedItemVm = new HackerNewsItemViewModel
             {

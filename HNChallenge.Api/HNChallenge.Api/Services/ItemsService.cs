@@ -20,57 +20,57 @@ namespace HNChallenge.Api.Services
             this.usersService = usersService;
         }
 
-        public HackerNewsItem GetItemById(int id)
+        public async Task<HackerNewsItem> GetItemById(int id)
         {
             var uri = $"{hackerNewsApiUri}/item/{id}.json";
 
-            var response = this.GetResponseStreamString(uri);
+            var response = await this.GetResponseStreamString(uri);
 
             var item = JsonConvert.DeserializeObject<HackerNewsItem>(response);
 
             return item;
         }
 
-        public IEnumerable<HackerNewsItem> GetTopItems(int page)
+        public async Task<IEnumerable<HackerNewsItem>> GetTopItems(int page)
         {
             var uri = $"{hackerNewsApiUri}/topstories.json";
 
-            var response = this.GetResponseStreamString(uri);
+            var response = await this.GetResponseStreamString(uri);
 
             var itemIds = JsonConvert.DeserializeObject<List<int>>(response);
 
-            return this.GetFullItems(itemIds.Skip(page * 10).Take(10));
+            return await this.GetFullItems(itemIds.Skip(page * 10).Take(10));
         }
 
-        public IEnumerable<HackerNewsItem> GetNewItems(int page)
+        public async Task<IEnumerable<HackerNewsItem>> GetNewItems(int page)
         {
             var uri = $"{hackerNewsApiUri}/newstories.json";
 
-            var response = this.GetResponseStreamString(uri);
+            var response = await this.GetResponseStreamString(uri);
 
             var itemIds = JsonConvert.DeserializeObject<List<int>>(response);
 
-            return this.GetFullItems(itemIds.Skip(page * 10).Take(10));
+            return await this.GetFullItems(itemIds.Skip(page * 10).Take(10));
         }
 
-        public IEnumerable<HackerNewsItem> GetBestItems(int page)
+        public async Task<IEnumerable<HackerNewsItem>> GetBestItems(int page)
         {
             var uri = $"{hackerNewsApiUri}/beststories.json";
 
-            var response = this.GetResponseStreamString(uri);
+            var response = await this.GetResponseStreamString(uri);
 
             var itemIds = JsonConvert.DeserializeObject<List<int>>(response);
 
-            return this.GetFullItems(itemIds.Skip(page * 10).Take(10));
+            return await this.GetFullItems(itemIds.Skip(page * 10).Take(10));
         }
 
-        private IEnumerable<HackerNewsItem> GetFullItems(IEnumerable<int> itemIds)
+        private async Task<IEnumerable<HackerNewsItem>> GetFullItems(IEnumerable<int> itemIds)
         {
             var items = new List<HackerNewsItem>();
 
             foreach (var id in itemIds)
             {
-                var item = this.GetItemById(id);
+                var item = await this.GetItemById(id);
 
                 if (item == null)
                 {
@@ -82,16 +82,16 @@ namespace HNChallenge.Api.Services
             return items;
         }
 
-        private string GetResponseStreamString(string uri)
+        private async Task<string> GetResponseStreamString(string uri)
         {
             var request = WebRequest.Create(uri);
             request.Method = "GET";
 
-            var response = request.GetResponse();
+            var response = await request.GetResponseAsync();
 
             using (var streamReader = new StreamReader(response.GetResponseStream()))
             {
-                var result = streamReader.ReadToEnd();
+                var result = await streamReader.ReadToEndAsync();
 
                 return result;
             }

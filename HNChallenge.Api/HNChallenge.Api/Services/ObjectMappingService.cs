@@ -22,9 +22,9 @@ namespace HNChallenge.Api.Services
             this.usersService = usersService;
         }
 
-        public HackerNewsItemViewModel Map(HackerNewsItem item)
+        public async Task<HackerNewsItemViewModel> Map(HackerNewsItem item)
         {
-            var author = this.usersService.GetUserById(item.By);
+            var author = await this.usersService.GetUserById(item.By);
 
             return new HackerNewsItemViewModel
             {
