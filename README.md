@@ -1,8 +1,8 @@
 # HackerNews challenge API
 
 #### Requisite software:
-* .Net core 2.2  [here](https://www.microsoft.com/net/download/dotnet-core/2.1 )
-* Visual Studio 2017  
+* .Net core 3.1  [here](https://dotnet.microsoft.com/download/dotnet-core/3.1 )
+* Visual Studio 2019 OR Visual Studio Code 
 
 #### Run the  code
 1. Open the solution in visual studio and ensure that you run visual studio 'As an Administrator'
