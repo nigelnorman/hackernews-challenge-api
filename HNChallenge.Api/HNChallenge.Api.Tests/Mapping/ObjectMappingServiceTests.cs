@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Moq;
 using Xunit;
 
 namespace HNChallenge.Api.Tests.Mapping
@@ -17,7 +19,8 @@ namespace HNChallenge.Api.Tests.Mapping
         public ObjectMappingServiceTests()
         {
             this.usersService = new UsersService();
-            this.itemsService = new ItemsService(this.usersService);
+            var httpClientFactoryDependency = new Mock<IHttpClientFactory>();
+            this.itemsService = new ItemsService(this.usersService, httpClientFactoryDependency.Object);
             this.mapper = new ObjectMappingService(this.usersService);
         }
 

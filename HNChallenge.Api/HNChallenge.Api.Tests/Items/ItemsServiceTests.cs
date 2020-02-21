@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Moq;
 using Xunit;
 
 //TODO
@@ -17,7 +19,8 @@ namespace HNChallenge.Api.Tests.Items
         public ItemsServiceTests()
         {
             var usersServiceDependency = new UsersService();
-            this.itemsService = new ItemsService(usersServiceDependency);
+            var httpClientFactoryDependency = new Mock<IHttpClientFactory>();
+            this.itemsService = new ItemsService(usersServiceDependency, httpClientFactoryDependency.Object);
         }
 
         [Fact]

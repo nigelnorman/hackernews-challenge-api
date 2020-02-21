@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace HNChallenge.Api.Services
@@ -15,9 +16,12 @@ namespace HNChallenge.Api.Services
 
         private readonly UsersService usersService;
 
-        public ItemsService(UsersService usersService)
+        private readonly IHttpClientFactory httpClientFactory;
+
+        public ItemsService(UsersService usersService, IHttpClientFactory httpClientFactory)
         {
             this.usersService = usersService;
+            this.httpClientFactory = httpClientFactory;
         }
 
         public async Task<HackerNewsItem> GetItemById(int id)
@@ -84,17 +88,9 @@ namespace HNChallenge.Api.Services
 
         private async Task<string> GetResponseStreamString(string uri)
         {
-            var request = WebRequest.Create(uri);
-            request.Method = "GET";
-
-            var response = await request.GetResponseAsync();
-
-            using (var streamReader = new StreamReader(response.GetResponseStream()))
-            {
-                var result = await streamReader.ReadToEndAsync();
-
-                return result;
-            }
+            var client = this.httpClientFactory.CreateClient();
+            var response = await client.GetAsync(uri);
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

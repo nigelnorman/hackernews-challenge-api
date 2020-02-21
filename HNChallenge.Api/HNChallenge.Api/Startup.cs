@@ -37,6 +37,7 @@ namespace HNChallenge.Api
                 opts.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:4200"));
             });
+            services.AddHttpClient();
 
             // Register services
             services.AddTransient<ItemsService>();
